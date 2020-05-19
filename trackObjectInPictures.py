@@ -3,7 +3,7 @@
 """
 Created on Thu Jul 11 07:10:18 2019
 
-@author: kartik
+@author: kartik (original), john (edits)
 """
 import numpy as np
 import sys
@@ -17,9 +17,13 @@ import pandas as pd
 import os
 import time
 
+
+## === IMPORTANT ATTRIBUTES ===
 marker_side = 0.03
 
 test_name = 'test.csv'
+
+## ============================
 
 
 def inversePerspective(rvec, tvec):
@@ -91,13 +95,16 @@ if __name__ == "__main__":
                    (0,0,1) ))
     dist = np.array((0.1611730644,-0.3392379107,0.0010744837,	0.000905697)) #k1,k2,p1,p2 ie radial dist and tangential dist
 
-#================================================================
+#================ FILE PATH TO IMAGE FOLDER =====================
+
     path = '/home/john/Documents/research'
     image_folder = '/C'
+
 #================================================================
 
     frame = cv2.imread(os.path.join(path,image_folder,'left0000.jpg'))
 
+#================================================================
 
     orig_rvec, orig_tvec, orig_corners = estimatePose(frame,marker_side, mtx, dist)
     orig_corners = orig_corners[0].squeeze()
@@ -125,7 +132,9 @@ if __name__ == "__main__":
                     continue
 
                 #to control processing frequency
+#=========++==== CONTROL PROCESSING FREQUENCY HERE ==============
                 if np.mod(counter,5) > 0:
+#================================================================
                     counter += 1
                     os.remove(os.path.join(path,image_folder,image_))
                     continue
@@ -178,4 +187,5 @@ if __name__ == "__main__":
                     fd.write(str(rotation))
                     fd.write('\n')
 #                    print(rel_pose)
+				print('Completed ' + file_name)
                 print('Total: ' + str(total) +' Done '+image_)
